@@ -1,0 +1,11 @@
+{
+  "PatientId": 3,
+  "FirstName": "Alice",
+  "LastName": "Johnson",
+  "DateOfBirth": "1975-11-30T00:00:00",
+  "Gender": "Female",
+  "PhoneNumber": "555-9012",
+  "EmailAddress": "alice.johnson@example.com",
+  "MedicalHistory": "Type 2 diabetes, hypertension.",
+  "Allergies": "Penicillin"
+}
