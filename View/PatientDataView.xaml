@@ -13,7 +13,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Load" Command="{Binding LoadCommand}" />
+                <MenuItem Header="Load" Command="{Binding loadCommand}" />
                 <MenuItem Header="Save" Command="{Binding SaveCommand}" />
             </MenuItem>
         </Menu>

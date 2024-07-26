@@ -164,7 +164,6 @@ namespace FocalTest2.ViewModel
             if (openFileDialog.ShowDialog() == true)
             {
                 _patientData = await _loader.LoadPatientDataAsync(openFileDialog.FileName);
-                OnPropertyChanged();
             }
         }
 
