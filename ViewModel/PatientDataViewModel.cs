@@ -1,46 +1,85 @@
 ﻿using FocalTest2.Model;
 using FocalTest2.Services;
 using Microsoft.Win32;
-using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FocalTest2.ViewModel
 {
-    internal class PatientDataViewModel : INotifyPropertyChanged
+    internal class PatientDataViewModel : ViewModelBase
     {
         private PatientData _patientData;
         private PatientDataLoader _loader;
         private PatientDataSaver _saver;
+        private Visibility _errorMsgVisibility = Visibility.Hidden;
+        private string _errorMessage;
+
+        //Should be comment everywhere.
+
+        /// <summary>
+        /// Show error message on the patient data form
+        /// </summary>
+        public Visibility ErrorMsgVisibility
+        {
+            get { return this._errorMsgVisibility; }
+            set
+            {
+                this._errorMsgVisibility = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get { return this._errorMessage; }
+            set
+            {
+                this._errorMessage = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public PatientDataViewModel()
         {
-            _patientData = new PatientData();
-            _loader = new PatientDataLoader();
-            _saver = new PatientDataSaver();
+            this._patientData = new PatientData();
+            this._loader = new PatientDataLoader();
+            this._saver = new PatientDataSaver();
+        }
+
+
+
+        public PatientData PatientData
+        {
+            get { return this._patientData; }
+            set
+            {
+                this._patientData = value;
+                this.OnPropertyChanged();
+            }
         }
 
         public int PatientId
         {
-            get { return _patientData.PatientId; }
+            get { return this._patientData.PatientId; }
             set
             {
-                if (_patientData.PatientId != value)
+                if (this._patientData.PatientId != value)
                 {
-                    _patientData.PatientId = value;
-                    OnPropertyChanged(nameof(PatientId));
+                    this._patientData.PatientId = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public string FirstName
         {
-            get { return _patientData.FirstName; }
+            get { return this._patientData.FirstName; }
             set
             {
-                if (_patientData.FirstName != value)
+                if (this._patientData.FirstName != value)
                 {
-                    _patientData.FirstName = value;
-                    OnPropertyChanged(nameof(FirstName));
+                    this._patientData.FirstName = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
@@ -50,23 +89,23 @@ namespace FocalTest2.ViewModel
             get { return _patientData.LastName; }
             set
             {
-                if (_patientData.LastName != value)
+                if (this._patientData.LastName != value)
                 {
-                    _patientData.LastName = value;
-                    OnPropertyChanged(nameof(LastName));
+                    this._patientData.LastName = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public DateTime DateOfBirth
         {
-            get { return _patientData.DateOfBirth; }
+            get { return this._patientData.DateOfBirth; }
             set
             {
-                if (_patientData.DateOfBirth != value)
+                if (this._patientData.DateOfBirth != value)
                 {
-                    _patientData.DateOfBirth = value;
-                    OnPropertyChanged(nameof(DateOfBirth));
+                    this._patientData.DateOfBirth = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
@@ -76,86 +115,83 @@ namespace FocalTest2.ViewModel
             get { return _patientData.Gender; }
             set
             {
-                if (_patientData.Gender != value)
+                if (this._patientData.Gender != value)
                 {
-                    _patientData.Gender = value;
-                    OnPropertyChanged(nameof(Gender));
+                    this._patientData.Gender = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public string PhoneNumber
         {
-            get { return _patientData.PhoneNumber; }
+            get { return this._patientData.PhoneNumber; }
             set
             {
-                if (_patientData.PhoneNumber != value)
+                if (this._patientData.PhoneNumber != value)
                 {
-                    _patientData.PhoneNumber = value;
-                    OnPropertyChanged(nameof(PhoneNumber));
+                    this._patientData.PhoneNumber = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public string EmailAddress
         {
-            get { return _patientData.EmailAddress; }
+            get { return this._patientData.EmailAddress; }
             set
             {
-                if (_patientData.EmailAddress != value)
+                if (this._patientData.EmailAddress != value)
                 {
                     _patientData.EmailAddress = value;
-                    OnPropertyChanged(nameof(EmailAddress));
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public string MedicalHistory
         {
-            get { return _patientData.MedicalHistory; }
+            get { return this._patientData.MedicalHistory; }
             set
             {
-                if (_patientData.MedicalHistory != value)
+                if (this._patientData.MedicalHistory != value)
                 {
-                    _patientData.MedicalHistory = value;
-                    OnPropertyChanged(nameof(MedicalHistory));
+                    this._patientData.MedicalHistory = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         public string Allergies
         {
-            get { return _patientData.Allergies; }
+            get { return this._patientData.Allergies; }
             set
             {
-                if (_patientData.Allergies != value)
+                if (this._patientData.Allergies != value)
                 {
-                    _patientData.Allergies = value;
-                    OnPropertyChanged(nameof(Allergies));
+                    this._patientData.Allergies = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         private ICommand _loadCommand;
+
         public ICommand LoadCommand
         {
-            get
-            {
-                return _loadCommand ?? (_loadCommand = new RelayCommand(param => ExecuteLoadCommand()));
-            }
+            get { return this._loadCommand ?? (_loadCommand = new RelayCommand(param => ExecuteLoadCommand())); }
         }
 
         private ICommand _saveCommand;
+
         public ICommand SaveCommand
         {
-            get
-            {
-                return _saveCommand ?? (_saveCommand = new RelayCommand(param => ExecuteSaveCommand()));
-            }
+            get { return this._saveCommand ?? (_saveCommand = new RelayCommand(param => ExecuteSaveCommand())); }
         }
 
         private async void ExecuteLoadCommand()
         {
+            this.ErrorMsgVisibility = Visibility.Hidden;
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "JSON Files (*.json)|*.json|All Files (*.*)|*.*"
@@ -163,8 +199,25 @@ namespace FocalTest2.ViewModel
 
             if (openFileDialog.ShowDialog() == true)
             {
-                _patientData = await _loader.LoadPatientDataAsync(openFileDialog.FileName);
+                try
+                {
+                    this.PatientData = await _loader.LoadPatientDataAsync(openFileDialog.FileName);
+                }
+                catch (Exception e)
+                {
+                    //Clear previous data on GUI
+                    this.PatientData = new PatientData();
+                    this.SetErrorMessage(e.Message);
+                    //example log4net(e).
+                }
+
             }
+        }
+
+        private void SetErrorMessage(string message)
+        {
+            this.ErrorMessage = "Can not load file";
+            this.ErrorMsgVisibility = Visibility.Visible;
         }
 
         private async void ExecuteSaveCommand()
@@ -176,20 +229,18 @@ namespace FocalTest2.ViewModel
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                await _saver.SavePatientDataAsync(_patientData, saveFileDialog.FileName);
+                try
+                {
+                    await _saver.SavePatientDataAsync(this._patientData, saveFileDialog.FileName);
+                }
+                catch (Exception e)
+                {
+                    this.SetErrorMessage(e.Message);
+                    //example log4net(e).
+                }
+
             }
-        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged()
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -8,6 +8,7 @@ namespace FocalTest2.Services
     {
         public async Task SavePatientDataAsync(PatientData patientData, string filePath)
         {
+            // should throw Exception if any error exists(not implemented)
             var json = JsonSerializer.Serialize(patientData, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync(filePath, json);
         }
